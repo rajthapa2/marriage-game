@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-body">
+    <ng-select
+      [items]="players$ | async"
+      [addTag]="addPlayerRef"
+      [hideSelected]="true"
+      [multiple]="true"
+      bindLabel="name"
+      typeToSearchText="Please enter 2 or more characters"
+      [editableSearchTerm]="true"
+      [(ngModel)]="selectedPlayers"
+    >
+    </ng-select>
+    <!-- <br /> -->
+    <!-- <mat-list role="list" *ngFor="let player of selectedPlayers">
+      <mat-list-item role="listitem">{{ player.name }}</mat-list-item>
+    </mat-list> -->
+    <!-- 
+    Selected value: {{ selectedPlayers | json }} -->
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="selectedPlayers.length <= 2"
+      (click)="startGame()"
+    >
+      Start
+    </button>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<!-- <mat-list role="list" *ngFor="let player of game?.players">
+  <mat-list-item role="listitem">{{ player?.name }}</mat-list-item>
+</mat-list> -->
+
+<div *ngIf="game.rounds.length > 0">
+  <h3>Round Results</h3>
+</div>
+
+<table
+  mat-table
+  [dataSource]="currentRound.roundInfo"
+  class="mat-elevation-z8 mal-input-table"
+>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let player">{{ player.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="seen">
+    <th mat-header-cell *matHeaderCellDef>Seen</th>
+    <td mat-cell *matCellDef="let player">
+      <mat-checkbox [(ngModel)]="player.seen"></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dubliee">
+    <th mat-header-cell *matHeaderCellDef>Dubliee</th>
+    <td mat-cell *matCellDef="let player">
+      <mat-checkbox [(ngModel)]="player.dubliee"></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="gameWon">
+    <th mat-header-cell *matHeaderCellDef>GameWon</th>
+    <td mat-cell *matCellDef="let player">
+      <mat-checkbox
+        #checkbox
+        [(ngModel)]="player.gameWon"
+        [disabled]="gameCanBeWonByOnePlayerOnly(player.name)"
+        (change)="gameWonChecked(checkbox.checked, player.name)"
+      ></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="maal">
+    <th mat-header-cell *matHeaderCellDef>Maal</th>
+    <td mat-cell *matCellDef="let player">
+      <input
+        class="maal-input"
+        matInput
+        type="number"
+        [disabled]="!player.seen"
+        [(ngModel)]="player.maal"
+      />
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<div class="button-container">
+  <button
+    mat-raised-button
+    class="calcuate-button"
+    color="primary"
+    [disabled]="!checkIfGameIsWon()"
+    (click)="calculateMaal()"
+  >
+    Calculate
+  </button>
+</div>
+
+<!-- <div>{{ currentRound | json }}</div> -->
