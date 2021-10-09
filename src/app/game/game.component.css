@@ -3,6 +3,10 @@ table {
   width: 100%;
 }
 
+.hover {
+  cursor: pointer;
+}
+
 .maal-input {
   width: 50px;
 }

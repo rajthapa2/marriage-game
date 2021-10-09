@@ -5,6 +5,7 @@ import { Round } from '../models/Round';
 import { PlayerRoundInfo } from '../models/PlayerRoundInfo';
 import { MalCalculatorService } from '../service/mal-calculator.service';
 import { GameService } from './game.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-game',
@@ -21,7 +22,8 @@ export class GameComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService,
-    private malCalculatorService: MalCalculatorService
+    private malCalculatorService: MalCalculatorService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -42,11 +44,35 @@ export class GameComponent implements OnInit {
     this.currentRound = round;
   }
 
+  seenChanged(hasSeen: boolean, name: string): void {
+    if (!hasSeen) {
+      let player = this.currentRound.roundInfo.find((p) => p.name === name);
+      if (player) {
+        player.maal = undefined;
+        player.dubliee = false;
+        player.gameWon = false;
+      }
+    }
+  }
+
+  toggleAllSeen() {
+    this.currentRound.roundInfo.map((p) => (p.seen = !p.seen));
+  }
+
   gameWonChecked(hasWon: boolean, name: string): void {
     let gameWonPlayer = this.currentRound.roundInfo.find(
       (p) => p.name === name
     );
     if (gameWonPlayer) gameWonPlayer.seen = true;
+  }
+
+  dublieeChanged(isDubliee: boolean, name: string): void {
+    if (isDubliee) {
+      let player = this.currentRound.roundInfo.find((p) => p.name === name);
+      if (player) {
+        player.seen = true;
+      }
+    }
   }
 
   gameCanBeWonByOnePlayerOnly(name: string): boolean {
@@ -98,5 +124,12 @@ export class GameComponent implements OnInit {
     this.game.rounds = [...this.game.rounds, this.currentRound];
     this.gameService.persistGame(this.game);
     this.createNewRound();
+    this.openSnackBar();
+  }
+
+  openSnackBar() {
+    this.snackBar.open('Round Calculated', '', {
+      duration: 2000,
+    });
   }
 }

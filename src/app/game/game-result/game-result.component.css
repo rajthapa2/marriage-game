@@ -35,11 +35,12 @@ tr.mat-footer-row {
 
 .maal-class {
   font-size: x-small;
+  margin: 2px;
 }
 
 td {
   vertical-align: top;
-  padding-top: 10px;
+  padding-top: 2px;
 }
 
 tr {

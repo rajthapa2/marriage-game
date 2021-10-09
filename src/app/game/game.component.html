@@ -13,16 +13,31 @@
   </ng-container>
 
   <ng-container matColumnDef="seen">
-    <th mat-header-cell *matHeaderCellDef>Seen</th>
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      (click)="toggleAllSeen()"
+      class="hover"
+    >
+      Seen
+    </th>
     <td mat-cell *matCellDef="let player">
-      <mat-checkbox [(ngModel)]="player.seen"></mat-checkbox>
+      <mat-checkbox
+        #seenCheckbox
+        [(ngModel)]="player.seen"
+        (change)="seenChanged(seenCheckbox.checked, player.name)"
+      ></mat-checkbox>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="dubliee">
     <th mat-header-cell *matHeaderCellDef>Dubliee</th>
     <td mat-cell *matCellDef="let player">
-      <mat-checkbox [(ngModel)]="player.dubliee"></mat-checkbox>
+      <mat-checkbox
+        #dublieeCheckbox
+        [(ngModel)]="player.dubliee"
+        (change)="dublieeChanged(dublieeCheckbox.checked, player.name)"
+      ></mat-checkbox>
     </td>
   </ng-container>
 

@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatSidenavModule,
@@ -32,6 +34,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {}
