@@ -1,11 +1,14 @@
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav #sidenav class="app-sidenav">
     <mat-toolbar color="primary"></mat-toolbar>
-
-    <mat-list role="list">
-      <mat-list-item role="listitem">Start New Game</mat-list-item>
-      <mat-list-item role="listitem">Previous Games</mat-list-item>
-    </mat-list>
+    <mat-nav-list>
+      <a mat-list-item (click)="sidenav.close()" [routerLink]="['/new-game']"
+        >New Game</a
+      >
+      <a mat-list-item (click)="sidenav.close()" [routerLink]="['/history']"
+        >History</a
+      >
+    </mat-nav-list>
   </mat-sidenav>
 
   <div class="app-sidenav-content">

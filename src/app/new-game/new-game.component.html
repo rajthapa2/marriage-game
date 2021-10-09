@@ -11,15 +11,10 @@
       [(ngModel)]="selectedPlayers"
     >
     </ng-select>
-    <!-- <br /> -->
-    <!-- <mat-list role="list" *ngFor="let player of selectedPlayers">
-      <mat-list-item role="listitem">{{ player.name }}</mat-list-item>
-    </mat-list> -->
-    <!-- 
-    Selected value: {{ selectedPlayers | json }} -->
+
     <button
-      mat-raised-button
-      color="primary"
+      mat-stroked-button
+      color="accent"
       [disabled]="selectedPlayers.length <= 2"
       (click)="startGame()"
     >
