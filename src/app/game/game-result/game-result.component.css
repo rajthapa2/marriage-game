@@ -1,0 +1,47 @@
+.maal-result-table {
+  width: 100%;
+  /* max-width: 600px; */
+}
+
+.mat-column-round {
+  max-width: 30px;
+  width: 30px;
+}
+
+.mat-column-totalMaal {
+  width: 20px;
+  text-align: right;
+}
+
+.seen {
+  color: blue;
+}
+
+.unseen {
+  color: tomato;
+}
+
+.game-won {
+  color: green;
+}
+
+.maal-result-table tr {
+  height: 40px;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.maal-class {
+  font-size: x-small;
+}
+
+td {
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+tr {
+  max-height: 30px;
+}

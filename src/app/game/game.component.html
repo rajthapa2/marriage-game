@@ -2,14 +2,10 @@
   <mat-list-item role="listitem">{{ player?.name }}</mat-list-item>
 </mat-list> -->
 
-<div *ngIf="game.rounds.length > 0">
-  <h3>Round Results</h3>
-</div>
-
 <table
   mat-table
   [dataSource]="currentRound.roundInfo"
-  class="mat-elevation-z8 mal-input-table"
+  class="mat-elevation-z4 maal-input-table"
 >
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -71,4 +67,9 @@
   </button>
 </div>
 
+<hr />
 <!-- <div>{{ currentRound | json }}</div> -->
+<div *ngIf="game.rounds.length > 0">
+  <h3 class="results-title">Results</h3>
+  <app-game-result [currentGame]="game"></app-game-result>
+</div>

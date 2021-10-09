@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Game, PlayerRoundInfo, Round } from '../models/game.model';
+import { Game } from '../models/game.model';
+import { Round } from '../models/Round';
+import { PlayerRoundInfo } from '../models/PlayerRoundInfo';
 import { MalCalculatorService } from '../service/mal-calculator.service';
 import { GameService } from './game.service';
 
@@ -28,15 +30,16 @@ export class GameComponent implements OnInit {
     if (!this.game) {
       this.router.navigate(['new-game']);
     }
-    this.currentRound = this.createNewRound();
+    this.createNewRound();
   }
 
-  createNewRound(): Round {
+  createNewRound() {
     let round: Round = {
       roundNumber: this.game.rounds.length + 1,
       roundInfo: this.createRoundInfos(),
+      totalMaal: 0,
     };
-    return round;
+    this.currentRound = round;
   }
 
   gameWonChecked(hasWon: boolean, name: string): void {
@@ -91,6 +94,9 @@ export class GameComponent implements OnInit {
     this.currentRound = this.malCalculatorService.calculateMaal(
       this.currentRound
     );
-    console.log(this.currentRound);
+
+    this.game.rounds = [...this.game.rounds, this.currentRound];
+    this.gameService.persistGame(this.game);
+    this.createNewRound();
   }
 }

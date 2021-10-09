@@ -16,9 +16,9 @@ export class GameService {
       players: players,
       rounds: [],
     };
-    let games = this.loadGames();
-    games.push(game);
-    localStorage.setItem('games', JSON.stringify(games));
+    let allGames = this.loadGames();
+    allGames.push(game);
+    this.storeGame(allGames);
     return id;
   }
 
@@ -34,5 +34,17 @@ export class GameService {
       return JSON.parse(games) as Array<Game>;
     }
     return new Array<Game>();
+  }
+
+  persistGame(game: Game) {
+    let allGames = this.loadGames();
+    let indexOfGameToUpdate = allGames.findIndex((p) => p.id == game.id);
+
+    allGames[indexOfGameToUpdate] = game;
+    this.storeGame(allGames);
+  }
+
+  private storeGame(games: Game[]) {
+    localStorage.setItem('games', JSON.stringify(games));
   }
 }

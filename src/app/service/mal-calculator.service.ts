@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PlayerRoundInfo, Round } from '../models/game.model';
+import { Round } from '../models/Round';
+import { PlayerRoundInfo } from '../models/PlayerRoundInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class MalCalculatorService {
 
     let gameWonPlayer = currentRound.roundInfo.find((p) => p.gameWon);
     if (gameWonPlayer) gameWonPlayer.calculatedPoint = -totalCalculatedPoint;
-
+    currentRound.totalMaal = totalMaal;
     return currentRound;
   }
 
