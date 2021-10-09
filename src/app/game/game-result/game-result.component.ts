@@ -1,14 +1,10 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChange,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Game } from 'src/app/models/game.model';
 import { PlayerRoundInfo } from 'src/app/models/PlayerRoundInfo';
+import { NewGameComponent } from 'src/app/new-game/new-game.component';
+import { GameComponent } from '../game.component';
 
 @Component({
   selector: 'app-game-result',
@@ -20,7 +16,7 @@ export class GameResultComponent implements OnInit {
   gameId: string;
 
   displayedColumns: string[];
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((param: Params) => {
@@ -28,9 +24,8 @@ export class GameResultComponent implements OnInit {
     });
 
     let m: string[] = ['round'];
-
     m.push(...this.currentGame.players.map((x) => x.name));
-    m.push(...['totalMaal']);
+    m.push(...['totalMaal', 'edit']);
 
     this.displayedColumns = m;
   }
@@ -72,5 +67,22 @@ export class GameResultComponent implements OnInit {
       });
     });
     return total;
+  }
+
+  editLastRound() {
+    console.log('last round editing');
+    // this.openEditRoundDialog();
+  }
+
+  openEditRoundDialog(): void {
+    const dialogRef = this.dialog.open(GameComponent, {
+      width: '250px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
 }

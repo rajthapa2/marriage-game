@@ -16,35 +16,42 @@ export class GameService {
       players: players,
       rounds: [],
     };
-    let allGames = this.loadGames();
-    allGames.push(game);
-    this.storeGame(allGames);
+    this.persistGame(game);
+    this.addToAllGames(id);
     return id;
   }
 
   loadGame(gameId: string): any {
-    let games = this.loadGames();
-    let game = games.find((x) => x.id === gameId);
-    return game;
+    let game = localStorage.getItem(gameId);
+    if (game) {
+      return JSON.parse(game) as Game;
+    }
+    return null;
   }
 
-  loadGames(): Array<Game> {
+  loadGames(): Array<Guid> {
     var games = localStorage.getItem('games');
     if (games) {
-      return JSON.parse(games) as Array<Game>;
+      return JSON.parse(games) as Array<Guid>;
     }
-    return new Array<Game>();
+    return new Array<Guid>();
   }
 
   persistGame(game: Game) {
+    // let allGames = this.loadGames();
+    // let indexOfGameToUpdate = allGames.findIndex((p) => p.id == game.id);
+
+    // allGames[indexOfGameToUpdate] = game;
+    // this.storeGame(allGames);
+    localStorage.setItem(game.id, JSON.stringify(game));
+  }
+
+  addToAllGames(id: Guid) {
     let allGames = this.loadGames();
-    let indexOfGameToUpdate = allGames.findIndex((p) => p.id == game.id);
-
-    allGames[indexOfGameToUpdate] = game;
-    this.storeGame(allGames);
+    allGames.push(id);
+    localStorage.setItem('games', JSON.stringify(allGames));
   }
-
-  private storeGame(games: Game[]) {
-    localStorage.setItem('games', JSON.stringify(games));
-  }
+  // private storeGame(games: Game[]) {
+  //   localStorage.setItem('games', JSON.stringify(games));
+  // }
 }
