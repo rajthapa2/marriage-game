@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Player } from '../models/player.model';
 import { Guid } from 'guid-typescript';
 import { Game } from '../models/game.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   games: Array<Game> = [];
 
@@ -35,7 +36,9 @@ export class GameService {
       this.games.push(game);
       return game;
     }
-    return null;
+
+    this.router.navigate(['new-game']);
+    // return null;
   }
 
   loadGames(): Array<Guid> {

@@ -1,7 +1,12 @@
-<app-maal-entry [currentGame]="game"></app-maal-entry>
-<hr />
+<app-maal-entry
+  [currentGame]="currentGame"
+  [currentRound]="currentRound"
+  (maalCalculated)="maalCalculated($event)"
+></app-maal-entry>
+<!-- <hr /> -->
 <!-- <div>{{ currentRound | json }}</div> -->
-<div *ngIf="game.rounds.length > 0">
+<!-- <div *ngIf="game.rounds.length > 0">
   <h3 class="results-title">Results</h3>
-  <app-game-result [currentGame]="game"></app-game-result>
-</div>
+</div> -->
+
+<app-game-result></app-game-result>

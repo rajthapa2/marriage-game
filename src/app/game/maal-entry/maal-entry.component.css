@@ -3,6 +3,10 @@ table {
   width: 100%;
 }
 
+.results-title {
+  padding-left: 20px;
+}
+
 .hover {
   cursor: pointer;
 }

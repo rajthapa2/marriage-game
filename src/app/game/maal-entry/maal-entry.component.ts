@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Game } from '../../models/game.model';
 import { Round } from '../../models/Round';
@@ -14,29 +14,35 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MaalEntryComponent implements OnInit {
   gameId: string;
-
   @Input() currentGame: Game;
+  @Output() maalCalculated = new EventEmitter<Round>();
 
-  currentRound: Round;
+  @Input() currentRound: Round;
+
   displayedColumns: string[] = ['name', 'seen', 'gameWon', 'dubliee', 'maal'];
   constructor(
+    private route: ActivatedRoute,
     private gameService: GameService,
     private malCalculatorService: MalCalculatorService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.createNewRound();
+    // this.route.params.subscribe((param: Params) => {
+    //   this.gameId = param['id'];
+    // });
+    // this.currentGame = this.gameService.loadGame(this.gameId);
+    // this.createNewRound();
   }
 
-  createNewRound() {
-    let round: Round = {
-      roundNumber: this.currentGame.rounds.length + 1,
-      roundInfo: this.createRoundInfos(),
-      totalMaal: 0,
-    };
-    this.currentRound = round;
-  }
+  // createNewRound() {
+  //   let round: Round = {
+  //     roundNumber: this.currentGame.rounds.length + 1,
+  //     roundInfo: this.createRoundInfos(),
+  //     totalMaal: 0,
+  //   };
+  //   this.currentRound = round;
+  // }
 
   seenChanged(hasSeen: boolean, name: string): void {
     if (!hasSeen) {
@@ -51,7 +57,10 @@ export class MaalEntryComponent implements OnInit {
 
   toggleAllSeen() {
     let anySeen = this.currentRound.roundInfo.find((p) => p.seen);
-    this.currentRound.roundInfo.forEach((p) => (p.seen = !anySeen));
+    this.currentRound.roundInfo.forEach((p) => {
+      p.seen = !anySeen;
+      this.seenChanged(p.seen, p.name);
+    });
   }
 
   gameWonChecked(hasGameWon: boolean, name: string): void {
@@ -87,21 +96,21 @@ export class MaalEntryComponent implements OnInit {
     return false;
   }
 
-  createRoundInfos(): Array<PlayerRoundInfo> {
-    let playersRound = new Array<PlayerRoundInfo>();
-    this.currentGame.players.forEach((p) => {
-      let roundInfo: PlayerRoundInfo = {
-        name: p.name,
-        seen: false,
-        dubliee: false,
-        gameWon: false,
-        calculatedPoint: 0,
-      };
-      playersRound.push(roundInfo);
-    });
+  // createRoundInfos(): Array<PlayerRoundInfo> {
+  //   let playersRound = new Array<PlayerRoundInfo>();
+  //   this.currentGame.players.forEach((p) => {
+  //     let roundInfo: PlayerRoundInfo = {
+  //       name: p.name,
+  //       seen: false,
+  //       dubliee: false,
+  //       gameWon: false,
+  //       calculatedPoint: 0,
+  //     };
+  //     playersRound.push(roundInfo);
+  //   });
 
-    return playersRound;
-  }
+  //   return playersRound;
+  // }
 
   checkIfGameIsWon(): boolean {
     const gameWonPlayer = this.currentRound.roundInfo.find(
@@ -118,10 +127,20 @@ export class MaalEntryComponent implements OnInit {
       this.currentRound
     );
 
-    this.currentGame.rounds = [...this.currentGame.rounds, this.currentRound];
+    let round = this.currentGame.rounds.find(
+      (r) => r.roundNumber === this.currentRound.roundNumber
+    );
+
+    if (round) {
+      round = this.currentRound;
+      this.currentGame.rounds = [...this.currentGame.rounds];
+    } else {
+      this.currentGame.rounds = [...this.currentGame.rounds, this.currentRound];
+    }
+
     this.gameService.persistGame(this.currentGame);
-    this.createNewRound();
     this.openSnackBar();
+    this.maalCalculated.next(this.currentRound);
   }
 
   openSnackBar() {

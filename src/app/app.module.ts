@@ -17,6 +17,7 @@ import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameResultComponent } from './game/game-result/game-result.component';
 import { MaalEntryComponent } from './game/maal-entry/maal-entry.component';
+import { MaalEntryDialogComponent } from './dialog/maal-entry-dialog/maal-entry-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MaalEntryComponent } from './game/maal-entry/maal-entry.component';
     ToolbarComponent,
     GameResultComponent,
     MaalEntryComponent,
+    MaalEntryDialogComponent,
   ],
   imports: [
     BrowserModule,

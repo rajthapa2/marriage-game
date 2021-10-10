@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
+import { MaalEntryDialogComponent } from 'src/app/dialog/maal-entry-dialog/maal-entry-dialog.component';
 import { Game } from 'src/app/models/game.model';
 import { PlayerRoundInfo } from 'src/app/models/PlayerRoundInfo';
+import { Round } from 'src/app/models/Round';
 import { NewGameComponent } from 'src/app/new-game/new-game.component';
 import { GameComponent } from '../game.component';
+import { GameService } from '../game.service';
 import { MaalEntryComponent } from '../maal-entry/maal-entry.component';
 
 @Component({
@@ -13,16 +16,22 @@ import { MaalEntryComponent } from '../maal-entry/maal-entry.component';
   styleUrls: ['./game-result.component.css'],
 })
 export class GameResultComponent implements OnInit {
-  @Input() currentGame: Game;
+  currentGame: Game;
   gameId: string;
 
   displayedColumns: string[];
-  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(
+    private gameService: GameService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((param: Params) => {
       this.gameId = param['id'];
     });
+
+    this.currentGame = this.gameService.loadGame(this.gameId);
 
     let m: string[] = ['round'];
     m.push(...this.currentGame.players.map((x) => x.name));
@@ -70,22 +79,25 @@ export class GameResultComponent implements OnInit {
     return total;
   }
 
-  editLastRound() {
-    console.log('last round editing');
-    this.openEditRoundDialog();
+  editLastRound(round: Round) {
+    console.log(round);
+    this.openEditRoundDialog(round);
   }
 
-  openEditRoundDialog(): void {
-    const dialogRef = this.dialog.open(MaalEntryComponent, {
-      width: '250px',
+  openEditRoundDialog(round: Round): void {
+    const dialogRef = this.dialog.open(MaalEntryDialogComponent, {
+      maxWidth: '100vw',
+      maxHeight: '70vh',
+      width: '750px',
+      height: 'auto',
       data: {
-        currentGame: this.currentGame,
+        gameId: this.gameId,
+        currentRound: round,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
 }
