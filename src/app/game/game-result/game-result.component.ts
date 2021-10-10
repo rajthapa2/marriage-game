@@ -5,6 +5,7 @@ import { Game } from 'src/app/models/game.model';
 import { PlayerRoundInfo } from 'src/app/models/PlayerRoundInfo';
 import { NewGameComponent } from 'src/app/new-game/new-game.component';
 import { GameComponent } from '../game.component';
+import { MaalEntryComponent } from '../maal-entry/maal-entry.component';
 
 @Component({
   selector: 'app-game-result',
@@ -71,13 +72,15 @@ export class GameResultComponent implements OnInit {
 
   editLastRound() {
     console.log('last round editing');
-    // this.openEditRoundDialog();
+    this.openEditRoundDialog();
   }
 
   openEditRoundDialog(): void {
-    const dialogRef = this.dialog.open(GameComponent, {
+    const dialogRef = this.dialog.open(MaalEntryComponent, {
       width: '250px',
-      data: {},
+      data: {
+        currentGame: this.currentGame,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

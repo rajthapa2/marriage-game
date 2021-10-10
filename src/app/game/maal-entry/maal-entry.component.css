@@ -1,0 +1,25 @@
+table {
+  text-align: center;
+  width: 100%;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.maal-input {
+  width: 50px;
+}
+
+tr {
+  text-align: left;
+}
+
+.maal-input-table tr {
+  height: 40px;
+}
+
+.button-container {
+  margin: 10px;
+  padding-bottom: 10px;
+}

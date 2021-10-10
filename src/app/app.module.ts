@@ -16,6 +16,7 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameResultComponent } from './game/game-result/game-result.component';
+import { MaalEntryComponent } from './game/maal-entry/maal-entry.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { GameResultComponent } from './game/game-result/game-result.component';
     GameComponent,
     ToolbarComponent,
     GameResultComponent,
+    MaalEntryComponent,
   ],
   imports: [
     BrowserModule,
