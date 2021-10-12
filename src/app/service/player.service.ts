@@ -15,6 +15,7 @@ export class PlayerService {
     };
 
     let allPlayers = [];
+
     this.loadPlayersFromStorage().subscribe((d) => (allPlayers = d));
 
     allPlayers.push(newPlayer);

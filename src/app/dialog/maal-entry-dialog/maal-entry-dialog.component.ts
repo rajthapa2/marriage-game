@@ -25,4 +25,8 @@ export class MaalEntryDialogComponent implements OnInit {
   maalCalculated(round: Round) {
     this.dialogRef.close();
   }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

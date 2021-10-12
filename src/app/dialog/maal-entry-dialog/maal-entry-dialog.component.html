@@ -1,3 +1,10 @@
+<div>
+  <span>Edit Round {{ data.currentRound.roundNumber }}</span>
+  <span class="material-icons" style="float: right" (click)="closeDialog()">
+    close
+  </span>
+</div>
+<br />
 <app-maal-entry
   [currentGame]="game"
   [currentRound]="data.currentRound"

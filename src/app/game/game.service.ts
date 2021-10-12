@@ -11,10 +11,12 @@ export class GameService {
   constructor(private router: Router) {}
 
   games: Array<Game> = [];
+  gameIds: Array<Guid>;
 
   createNewGame(players: Player[]): Guid {
     const id = Guid.create();
     let game: Game = {
+      date: new Date(),
       id: id.toString(),
       players: players,
       rounds: [],
@@ -38,10 +40,22 @@ export class GameService {
     }
 
     this.router.navigate(['new-game']);
-    // return null;
   }
 
-  loadGames(): Array<Guid> {
+  persistGame(game: Game) {
+    localStorage.setItem(game.id, JSON.stringify(game));
+  }
+
+  loadAllGames(): Array<Game> {
+    let allGamesId = this.loadAllGamesId();
+    this.games = [];
+    allGamesId.forEach((g) => {
+      this.games.push(this.loadGame(g.toString()));
+    });
+    return this.games;
+  }
+
+  private loadAllGamesId(): Array<Guid> {
     let games = localStorage.getItem('games');
     if (games) {
       return JSON.parse(games) as Array<Guid>;
@@ -49,12 +63,8 @@ export class GameService {
     return new Array<Guid>();
   }
 
-  persistGame(game: Game) {
-    localStorage.setItem(game.id, JSON.stringify(game));
-  }
-
   private addToAllGames(id: Guid) {
-    let allGames = this.loadGames();
+    let allGames = this.loadAllGamesId();
     allGames.push(id);
     localStorage.setItem('games', JSON.stringify(allGames));
   }
