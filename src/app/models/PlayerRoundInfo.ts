@@ -5,4 +5,5 @@ export interface PlayerRoundInfo {
   dubliee: boolean;
   gameWon: boolean;
   calculatedPoint: number;
+  pandraPointFine: boolean;
 }

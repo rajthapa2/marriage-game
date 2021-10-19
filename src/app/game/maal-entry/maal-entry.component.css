@@ -27,3 +27,14 @@ tr {
   margin: 10px;
   padding-bottom: 10px;
 }
+
+.mat-column-pandraPointFine {
+  color: tomato;
+}
+
+.mat-cell:last-child,
+.mat-footer-cell:last-child,
+.mat-header-cell:last-child {
+  padding-right: 10px;
+  text-align: right;
+}

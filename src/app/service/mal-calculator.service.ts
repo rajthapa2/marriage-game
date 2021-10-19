@@ -10,27 +10,34 @@ export class MalCalculatorService {
 
   calculateMaal(currentRound: Round): Round {
     const totalMaal = this.getTotalMaal(currentRound);
-
-    let totalCalculatedPoint = 0;
-
     currentRound.roundInfo.forEach((p) => {
       if (!p.seen) {
         p.calculatedPoint = -(totalMaal + 10);
-        totalCalculatedPoint = totalCalculatedPoint + p.calculatedPoint;
       } else if (p.seen && !p.gameWon) {
-        let totalMalWith3 = totalMaal;
+        let totalMalPlus3 = totalMaal;
         if (!p.dubliee) {
-          totalMalWith3 = totalMaal + 3;
+          totalMalPlus3 = totalMaal + 3;
         }
         p.calculatedPoint =
           this.getDefaultMal(p.maal) * currentRound.roundInfo.length -
-          totalMalWith3;
-        totalCalculatedPoint = totalCalculatedPoint + p.calculatedPoint;
+          totalMalPlus3;
       }
+
+      this.update15PointIfApplicable(p);
     });
 
     let gameWonPlayer = currentRound.roundInfo.find((p) => p.gameWon);
-    if (gameWonPlayer) gameWonPlayer.calculatedPoint = -totalCalculatedPoint;
+    if (gameWonPlayer) {
+      let totalCalculatedPoint = 0;
+      currentRound.roundInfo
+        .filter((x) => !x.gameWon)
+        .forEach(
+          (r) =>
+            (totalCalculatedPoint = totalCalculatedPoint + r.calculatedPoint)
+        );
+      gameWonPlayer.calculatedPoint = -totalCalculatedPoint;
+    }
+
     currentRound.totalMaal = totalMaal;
     return currentRound;
   }
@@ -49,5 +56,11 @@ export class MalCalculatorService {
       totalMaal += this.getDefaultMal(x.maal);
     });
     return totalMaal;
+  }
+
+  private update15PointIfApplicable(playerRound: PlayerRoundInfo) {
+    if (playerRound.pandraPointFine) {
+      playerRound.calculatedPoint -= 15;
+    }
   }
 }

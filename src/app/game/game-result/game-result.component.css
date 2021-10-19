@@ -45,3 +45,16 @@ tr {
 .hover {
   cursor: pointer;
 }
+
+.mat-cell:last-child,
+.mat-footer-cell:last-child,
+.mat-header-cell:last-child {
+  padding-right: 10px;
+  text-align: right;
+}
+
+.mat-cell:first-child,
+.mat-footer-cell:first-child,
+.mat-header-cell:first-child {
+  padding-left: 10px;
+}

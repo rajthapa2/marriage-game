@@ -48,6 +48,7 @@ export class GameComponent implements OnInit {
         dubliee: false,
         gameWon: false,
         calculatedPoint: 0,
+        pandraPointFine: false,
       };
       playersRound.push(roundInfo);
     });

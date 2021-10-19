@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Game } from '../../models/game.model';
 import { Round } from '../../models/Round';
-import { PlayerRoundInfo } from '../../models/PlayerRoundInfo';
 import { MalCalculatorService } from '../../service/mal-calculator.service';
 import { GameService } from './../game.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-maal-entry',
@@ -19,30 +18,22 @@ export class MaalEntryComponent implements OnInit {
 
   @Input() currentRound: Round;
 
-  displayedColumns: string[] = ['name', 'seen', 'gameWon', 'dubliee', 'maal'];
+  displayedColumns: string[] = [
+    'name',
+    'seen',
+    'gameWon',
+    'dubliee',
+    'maal',
+    'pandraPointFine',
+  ];
   constructor(
-    private route: ActivatedRoute,
     private gameService: GameService,
     private malCalculatorService: MalCalculatorService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-    // this.route.params.subscribe((param: Params) => {
-    //   this.gameId = param['id'];
-    // });
-    // this.currentGame = this.gameService.loadGame(this.gameId);
-    // this.createNewRound();
-  }
-
-  // createNewRound() {
-  //   let round: Round = {
-  //     roundNumber: this.currentGame.rounds.length + 1,
-  //     roundInfo: this.createRoundInfos(),
-  //     totalMaal: 0,
-  //   };
-  //   this.currentRound = round;
-  // }
+  ngOnInit(): void {}
 
   seenChanged(hasSeen: boolean, name: string): void {
     if (!hasSeen) {
@@ -68,7 +59,10 @@ export class MaalEntryComponent implements OnInit {
       let gameWonPlayer = this.currentRound.roundInfo.find(
         (p) => p.name === name
       );
-      if (gameWonPlayer) gameWonPlayer.seen = true;
+      if (gameWonPlayer) {
+        gameWonPlayer.seen = true;
+        gameWonPlayer.pandraPointFine = false;
+      }
     }
   }
 
@@ -95,22 +89,6 @@ export class MaalEntryComponent implements OnInit {
 
     return false;
   }
-
-  // createRoundInfos(): Array<PlayerRoundInfo> {
-  //   let playersRound = new Array<PlayerRoundInfo>();
-  //   this.currentGame.players.forEach((p) => {
-  //     let roundInfo: PlayerRoundInfo = {
-  //       name: p.name,
-  //       seen: false,
-  //       dubliee: false,
-  //       gameWon: false,
-  //       calculatedPoint: 0,
-  //     };
-  //     playersRound.push(roundInfo);
-  //   });
-
-  //   return playersRound;
-  // }
 
   checkIfGameIsWon(): boolean {
     const gameWonPlayer = this.currentRound.roundInfo.find(
